@@ -1,4 +1,4 @@
-package io.github.camaya045.lab_1;
+package io.github.camaya045.lab_1.JSPLab;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
