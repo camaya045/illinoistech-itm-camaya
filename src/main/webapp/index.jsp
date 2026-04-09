@@ -6,9 +6,19 @@
 <body>
     <h2>User Information</h2>
     <form action="process" method="post">
-        Name: <input type="text" name="name"><br><br>
-        Favorite Food: <input type="text" name="food"><br><br>
-        Age: <input type="number" name="age"><br><br>
+        <div>
+            Name: <input type="text" name="name" required>
+        </div>
+
+        <div>
+            Favorite Food: <input type="text" name="food" required>
+        </div>
+
+        <div>
+            Age: <input type="number" name="age" required>
+        </div>
+
+        <br>
         <input type="submit" value="Submit">
     </form>
 </body>
