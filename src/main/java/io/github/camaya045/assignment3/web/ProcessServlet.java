@@ -29,7 +29,7 @@ public class ProcessServlet extends HttpServlet{
             category = "adult";
         }
         //Creates a message that incorporates the user’s name and favorite food
-        String message = name + " likes " + food + ".";
+        String message = name + " likes  " + food + ".";
         //Places all needed output data into request attributes
         request.setAttribute("name", name);
         request.setAttribute("food", food);
