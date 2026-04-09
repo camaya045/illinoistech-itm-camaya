@@ -1,6 +1,5 @@
 package io.github.camaya045.assignment3.web;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
