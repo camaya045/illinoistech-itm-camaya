@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
+
+<h:head>
+    <title>Employees</title>
+</h:head>
+
+<h:body>
+    <h1>Employees</h1>
+    <!-- SEARCH -->
+    <h:form>
+        <h:inputText value="#{employeeBean.searchKeyword}" placeholder="Search name or title"/>
+        <h:commandButton value="Search" action="#{employeeBean.search}"/>
+    </h:form>
+    <br/>
+    <!-- FILTER -->
+    <h:form>
+        <h:selectOneMenu value="#{employeeBean.selectedDeptId}">
+            <f:selectItem itemValue="0" itemLabel="All Departments"/>
+            <f:selectItems value="#{employeeBean.departments}" var="d"
+                           itemValue="#{d.deptId}" itemLabel="#{d.deptName}"/>
+        </h:selectOneMenu>
+
+        <h:commandButton value="Filter" action="#{employeeBean.filter}"/>
+    </h:form>
+    <br/>
+    <!-- TABLE -->
+    <h:dataTable value="#{employeeBean.employees}" var="e" border="1">
+
+        <h:column>
+            <f:facet name="header">ID</f:facet>
+            #{e.empId}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Name</f:facet>
+            #{e.fullName}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Title</f:facet>
+            #{e.title}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Department</f:facet>
+            #{e.department.deptName}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Salary</f:facet>
+            #{e.salary}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Edit</f:facet>
+            <h:link value="Edit" outcome="editEmployee.xhtml">
+                <f:param name="empId" value="#{e.empId}"/>
+            </h:link>
+        </h:column>
+
+    </h:dataTable>
+    <br/>
+    <h:link value="Back to Departments" outcome="departments.xhtml"/>
+</h:body>
+</html>
