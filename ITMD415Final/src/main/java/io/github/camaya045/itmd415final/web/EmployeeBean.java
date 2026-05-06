@@ -5,6 +5,7 @@ import io.github.camaya045.itmd415final.entity.Employee;
 import io.github.camaya045.itmd415final.service.DepartmentService;
 import io.github.camaya045.itmd415final.service.EmployeeService;
 import jakarta.annotation.PostConstruct;
+import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
@@ -12,11 +13,14 @@ import jakarta.inject.Named;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Named
 @ViewScoped
 public class EmployeeBean implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    private static final Logger logger = Logger.getLogger(EmployeeBean.class.getName());
 
     @Inject
     private transient EmployeeService employeeService;
@@ -41,15 +45,25 @@ public class EmployeeBean implements Serializable {
                 .get("deptId");
 
         if(deptParam != null){
-            selectedDeptId = Integer.parseInt(deptParam);
-            employee = employeeService.getEmployeesByDept(selectedDeptId);
+            try {
+                selectedDeptId = Integer.parseInt(deptParam);
+                employee = employeeService.getEmployeesByDept(selectedDeptId);
+            } catch (NumberFormatException e) {
+                logger.warning("Invalid deptId parameter: " + deptParam);
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Invalid department ID"));
+            }
         }
     }
     //search for employees
     public void search(){
-        employee = employeeService.searchEmployees(searchKeyword);
+        if(searchKeyword == null || searchKeyword.isBlank()){
+            employee = employeeService.getEmployees();
+        }else {
+            employee = employeeService.searchEmployees(searchKeyword);
+        }
     }
-    //filter
+    //filter by department
     public void filter () {
         if (selectedDeptId == 0){
             employee = employeeService.getEmployees();

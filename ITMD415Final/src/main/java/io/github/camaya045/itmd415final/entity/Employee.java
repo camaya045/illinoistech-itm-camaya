@@ -1,5 +1,7 @@
 package io.github.camaya045.itmd415final.entity;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -16,10 +18,9 @@ public class Employee {
     @Column(name = "title", nullable = false, length = 120)
     private String title;
     @Column(name = "salary", nullable = false, precision = 10, scale = 2)
-    private double salary;
-    @Column(name = "hire_date", nullable = false)
+    private BigDecimal salary;
+    @Column(name = "hire_date",  nullable = false)
     private LocalDate hireDate;
-
     @ManyToOne
     @JoinColumn(name = "dept_id")
     private Department department;
@@ -35,8 +36,11 @@ public class Employee {
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
 
-    public double getSalary() { return salary; }
-    public void setSalary(double salary) { this.salary = salary; }
+    public BigDecimal getSalary() { return salary; }
+    public void setSalary(BigDecimal salary) { this.salary = salary; }
+
+    public LocalDate getHireDate() { return hireDate; }
+    public void setHireDate(LocalDate hireDate) { this.hireDate = hireDate; }
 
     public Department getDepartment() { return department; }
     public void setDepartment(Department department) { this.department = department; }

@@ -14,12 +14,16 @@ import jakarta.inject.Named;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Logger;
 
 @RolesAllowed("ADMIN")
 @Named
 @ViewScoped
 public class EmployeeEditBean implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    //logger
+    private static final Logger logger = Logger.getLogger(EmployeeEditBean.class.getName());
 
     @Inject
     private transient EmployeeService employeeService;
@@ -39,14 +43,21 @@ public class EmployeeEditBean implements Serializable {
                 .getExternalContext()
                 .getRequestParameterMap()
                 .get("empId");
-        if (id != null) {
-            empId = Integer.parseInt(id);
-            employee = employeeService.getEmployeeById(empId);
+        if (id !=null) {
+            try {
+                empId = Integer.parseInt(id);
+                employee = employeeService.getEmployeeById(empId);
 
-            if (employee != null) {
-                selectedDeptId = employee.getDepartment().getDeptId();
-            } else  {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Employee not found"));
+                if (employee != null) {
+                    selectedDeptId = employee.getDepartment().getDeptId();
+                } else {
+                    FacesContext.getCurrentInstance().addMessage(null,
+                            new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning", "Employee not found"));
+                }
+            } catch (NumberFormatException e) {
+                logger.warning("Invalid empId parameter: " + id);
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Invalid employee ID"));
             }
         }
         departments = departmentService.getAllDepartments();
@@ -64,7 +75,7 @@ public class EmployeeEditBean implements Serializable {
             return "employees.xhtml?faces-redirect=true";
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.severe("Failed to update employee id =" + empId + ": " + e.getMessage());
 
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Failed to update employee"));

@@ -5,17 +5,36 @@
 
 <h:head>
     <title>Employees</title>
+    <style>
+        .success-msg {
+            background: #d4edda;
+            color: green;
+            padding: 10px 16px;
+            border-radius: 4px;
+            margin-bottom: 12px;
+            font-weight: bold;
+        }
+    </style>
+
+    <h:panelGroup rendered="#{param.accessDenied == 'true'}">
+        <p style="color: #a94442; background: #f2dede; border: 1px solid #ebccd1;
+              padding: 10px 16px; border-radius: 4px; font-weight: bold;">
+            &#x26D4; Access Denied — this page is restricted to ADMIN users only.
+        </p>
+    </h:panelGroup>
 </h:head>
 
 <h:body>
     <h1>Employees</h1>
-    <!-- SEARCH -->
+
+    <h:messages globalOnly="true" styleClass="success-msg" infoClass="success-msg"/>
+    <!-- search -->
     <h:form>
         <h:inputText value="#{employeeBean.searchKeyword}" placeholder="Search name or title"/>
         <h:commandButton value="Search" action="#{employeeBean.search}"/>
     </h:form>
     <br/>
-    <!-- FILTER -->
+    <!-- filter -->
     <h:form>
         <h:selectOneMenu value="#{employeeBean.selectedDeptId}">
             <f:selectItem itemValue="0" itemLabel="All Departments"/>
@@ -26,7 +45,7 @@
         <h:commandButton value="Filter" action="#{employeeBean.filter}"/>
     </h:form>
     <br/>
-    <!-- TABLE -->
+    <!-- table -->
     <h:dataTable value="#{employeeBean.employees}" var="e" border="1">
 
         <h:column>
@@ -52,6 +71,11 @@
         <h:column>
             <f:facet name="header">Salary</f:facet>
             #{e.salary}
+        </h:column>
+
+        <h:column>
+            <f:facet name="header">Hire Date</f:facet>
+            #{e.hireDate}
         </h:column>
 
         <h:column>

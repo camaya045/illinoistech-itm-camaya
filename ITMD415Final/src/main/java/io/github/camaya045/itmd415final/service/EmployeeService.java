@@ -12,7 +12,7 @@ import java.util.List;
 @Transactional
 public class EmployeeService {
 
-    @PersistenceContext
+    @PersistenceContext(unitName = "deptPU")
     private EntityManager em;
 
     // getting all employees
