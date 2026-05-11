@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core">
+
+<h:head>
+    <title>Edit Employee</title>
+</h:head>
+
+<h:body>
+    <h1>Edit Employee</h1>
+
+    <h:messages style="color:red"/>
+
+    <h:panelGroup rendered="#{not empty employeeEditBean.employee}">
+
+        <h:form>
+            <h:panelGrid columns="2">
+
+                <h:outputText value="Name:"/>
+                <h:outputText value="#{employeeEditBean.employee.fullName}"/>
+
+                <h:outputText value="Title:"/>
+                <h:inputText value="#{employeeEditBean.employee.title}" required="true"/>
+
+                <h:outputText value="Salary:"/>
+                <h:inputText value="#{employeeEditBean.employee.salary}" required="true">
+                    <f:convertNumber type="currency"/>
+                    <f:validateDoubleRange minimum="0"/>
+                </h:inputText>
+
+                <h:outputText value="Department:"/>
+                <h:selectOneMenu value="#{employeeEditBean.selectedDeptId}">
+                    <f:selectItems value="#{employeeEditBean.departments}" var="d"
+                                   itemValue="#{d.deptId}" itemLabel="#{d.deptName}"/>
+                </h:selectOneMenu>
+
+            </h:panelGrid>
+
+            <br/>
+
+            <h:commandButton value="Save" action="#{employeeEditBean.save}"/>
+        </h:form>
+
+    </h:panelGroup>
+
+    <h:panelGroup rendered="#{empty employeeEditBean.employee}">
+        <h:outputText value="Employee not found." style="color:red"/>
+    </h:panelGroup>
+
+    <br/>
+    <h:link value="Back to Employees" outcome="employees.xhtml"/>
+
+</h:body>
+</html>

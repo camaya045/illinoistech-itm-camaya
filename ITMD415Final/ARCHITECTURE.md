@@ -1,0 +1,8 @@
+- Runtime and Server, the app is packaged as a .war file an dis deployed using Payara 6 server
+- JSF/Facelets are used for the UI which the user is going to interact with three xhtml files: departments, employees, and ediEmployees
+- The web layer consists of 3 CDI beans that back the views DepartmentBean, EmployeeBean, and EmployeeEditBean. Using @named and @viewscoped.
+- The service layer is where busisness logic is implemnted within EmployeeService.java and DepartmentService.java, with both using @ApplicationScoped.
+- The percistance layer: This layer uses JPA with EclipseLink and Payara to access data. JPQL quaries are used to keep the app portable acoss relational databases.
+- The Database is made using MySQL8, having the tables departments and employees. The connection is configured as a JDBC connection pool in Payara and connected back to the app via the JNDI name jdbc/HrDS.
+- Security for the app is handles by web.xml which uses a <security-constraint> restricting editEmployee.xhtml to just the Admin, and athetication uses HTTP BASIC authentication.
+- 
